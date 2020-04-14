@@ -8,8 +8,13 @@ const db = knex(knexfile.development);
 const router = express.Router();
 
 router.get("/", (req, res) => {
+    const { limit } = req.query;
+    limit ? db("messages").limit(limit)
+    .then(messages => res.status(200).json(messages)
+    .catch(err => res.status(500).json({ message: "Cannot retrieve messages"})))
+    :
     db("messages")
-    .then(messages => res.json(messages))
+    .then(messages => res.status(200).json(messages))
     .catch(err => res.status(500).json({ message: "Cannot retrieve messages"}))
 });
 
