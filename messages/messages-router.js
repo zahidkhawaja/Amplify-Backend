@@ -1,33 +1,21 @@
-const express = require('express');
-const knex = require('knex');
+const router = require('express').Router();
 
-const knexfile = require("../knexfile");
-
-const db = knex(knexfile.development);
-
-const router = express.Router();
+const Messages = require("../messages/messages-model");
 
 router.get("/", (req, res) => {
-    const { limit } = req.query;
-    limit ? db("messages").limit(limit)
-    .then(messages => res.status(200).json(messages)
-    .catch(err => res.status(500).json({ message: "Cannot retrieve messages"})))
-    :
-    db("messages")
+    Messages.find()
     .then(messages => res.status(200).json(messages))
-    .catch(err => res.status(500).json({ message: "Cannot retrieve messages"}))
+    .catch(() => res.status(500).json({ message: "Cannot retrieve messages"}))
 });
 
 router.post("/", (req, res) => {
-    const messageData = req.body;
-    db("messages").insert(messageData)
-    .then(ids => db("messages").where({ id: ids[0] }))
+    Messages.add(req.body)
     .then(newMessage => res.status(201).json(newMessage))
-    .catch(err => res.status(500).json({ message: "Error sending message"}))
+    .catch(() => res.status(500).json({ message: "Error sending message"}))
 });
 
 router.delete("/:id", (req, res) => {
-    db("messages").where("id", req.params.id).del()
+    Messages.remove(req.params.id)
     .then(num => res.status(200).json(num))
     .catch(error => res.status(500).json({ error: error.message }))
 });
