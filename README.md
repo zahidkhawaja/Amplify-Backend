@@ -1,1 +1,1 @@
-# Chat-App-Backend
+# Amplify Backend
