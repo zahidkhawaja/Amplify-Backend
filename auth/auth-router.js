@@ -50,11 +50,11 @@ function generateToken(user) {
 
   const secret = process.env.JWT_SECRET || "blah";
 
-  const options = {
-    expiresIn: "1d"
-  }
+//   const options = {
+//     expiresIn: "1d"
+//   }
 
-  return jwt.sign(payload, secret, options);
+  return jwt.sign(payload, secret);
 }
 
 module.exports = router; 
