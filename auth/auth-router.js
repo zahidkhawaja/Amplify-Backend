@@ -6,6 +6,7 @@ const Users = require("../users/users-model.js");
 
 router.post("/register", (req, res) => {
   let user = req.body;
+  user.username = user.username.toLowerCase();
   const rounds = process.env.HASH_ROUNDS || 8;
   const hash = bcrypt.hashSync(user.password, rounds);
   user.password = hash;
@@ -22,6 +23,7 @@ router.post("/register", (req, res) => {
 
 router.post("/login", (req, res) => {
   let { username, password } = req.body;
+  username = username.toLowerCase();
   // Search for the user
   Users.findBy({ username })
     .then(user => {

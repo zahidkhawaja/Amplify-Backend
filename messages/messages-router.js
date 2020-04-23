@@ -1,8 +1,7 @@
 const router = require('express').Router();
 
 const Messages = require("../messages/messages-model");
-
-const authenticator = require("../auth/authenticator.js");
+const authenticator = require("../auth/authenticator");
 
 router.get("/", (req, res) => {
     Messages.find()
