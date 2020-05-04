@@ -50,7 +50,7 @@ function generateToken(user) {
     username:  user[0].username
   };
 
-  const secret = process.env.JWT_SECRET || "blah";
+  const secret = process.env.JWT_SECRET;
 
 //   const options = {
 //     expiresIn: "1d"
